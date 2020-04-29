@@ -1,0 +1,2 @@
+# CalisthenicsEncyclopediaApp
+whole CalisthenicsEncyclopediaApp
