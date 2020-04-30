@@ -11,6 +11,5 @@ namespace WorkoutPlanService.Domain.DTO
         public DateTime FirstDate { get; set; }
         public int? ReccuringTimes { get; set; }
         public Guid WorkoutPlanExternalId { get; set; }
-        public string WorkoutPlanName { get; set; }
     }
 }

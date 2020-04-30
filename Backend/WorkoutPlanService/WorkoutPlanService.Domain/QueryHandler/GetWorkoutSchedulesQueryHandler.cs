@@ -21,6 +21,7 @@ namespace WorkoutPlanService.Domain.QueryHandler
             _workoutPlanRepository = workoutPlanRepository;
             _workoutSchedulesRepository = workoutSchedulesRepository;
         }
+
         public async Task<IEnumerable<WorkoutScheduleDTO>> Handle(GetWorkoutSchedulesQuery request, CancellationToken cancellationToken)
         {
 
@@ -33,7 +34,6 @@ namespace WorkoutPlanService.Domain.QueryHandler
                 .Where(x => plans.Any(y => y.ExternalId == x.WorkoutPlanExternalId))
                 .Select(x => new WorkoutScheduleDTO
                 {
-                    WorkoutPlanName = plans.First(y => y.ExternalId == x.WorkoutPlanExternalId).Name,
                     ExternalId = x.ExternalId,
                     FirstDate = x.FirstDate,
                     Recurrance = x.Recurrence,
