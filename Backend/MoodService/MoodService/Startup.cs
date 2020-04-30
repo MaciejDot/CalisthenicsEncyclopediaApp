@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
 using System.Threading.Tasks;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,13 +33,14 @@ namespace MoodService
             services.AddMoodServiceDataAccess(Configuration.GetConnectionString("MoodDatabase"));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IBackgroundJobClient client, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             GCSettings.LatencyMode = GCLatencyMode.SustainedLowLatency;
+            app.UseMoodServiceDataAccess(client);
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

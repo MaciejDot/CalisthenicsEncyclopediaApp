@@ -1,4 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CacheManager.Core;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using Microsoft.Extensions.DependencyInjection;
+using MoodService.DataAccess.Cache;
+using MoodService.DataAccess.Hangfire;
+using MoodService.DataAccess.Jobs;
+using MoodService.DataAccess.Repositories;
 using SimpleCQRS.DependencyInjectionExtensions;
 using System;
 using System.Collections.Generic;
@@ -14,6 +21,20 @@ namespace MoodService.DataAccess.Configuration
         {
             services.AddSimpleCQRS(Assembly.GetExecutingAssembly());
             services.AddTransient(_ => new SqlConnection(connectionString));
+            services.AddSingleton<IMoodCacheService, MoodCacheService>();
+            services.AddSingleton<IMoodRepository, MoodRepository>();
+            services.AddSingleton<IBackgroundJobClientService, BackgroundJobClientService>();
+            services.AddTransient<IPopulateMoodCacheJob, PopulateMoodCacheJob>();
+            services.AddHangfire(configuration =>
+            {
+                configuration
+                    .UseMemoryStorage();
+            });
+            services.AddCacheManagerConfiguration(configure =>
+                configure
+                .WithMicrosoftMemoryCacheHandle()
+                .WithExpiration(ExpirationMode.Absolute, TimeSpan.FromMinutes(60)));
+            services.AddCacheManager();
             return services;
         }
     }
