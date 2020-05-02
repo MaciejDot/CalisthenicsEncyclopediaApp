@@ -13,10 +13,6 @@
 
 
 GO
-CREATE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_UserId_IsActive]
-    ON [Workout].[WorkoutPlanVersion]([UserId] ASC, [IsActive] ASC);
-
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_WorkoutPlanId_Created]
-    ON [Workout].[WorkoutPlanVersion]([ExternalId] ASC, [Created] ASC);
+CREATE NONCLUSTERED INDEX [IX_WorkoutPlanVersion_UserId_External_Created]
+    ON [Workout].[WorkoutPlanVersion]([UserId] ASC,[ExternalId], [Created] DESC);
 

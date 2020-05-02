@@ -8,4 +8,4 @@
 );
 GO
 CREATE NONCLUSTERED INDEX [IX_Exercise_ExerciseId] ON
-[Workout].[Exercise]([ExerciseId] ASC);
+[Workout].[Exercise]([ExerciseId] ASC, [Created] DESC);

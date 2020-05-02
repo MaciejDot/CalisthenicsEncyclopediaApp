@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WorkoutExecutionService.Domain.DTO;
+using WorkoutExecutionService.Domain.Query;
 
 namespace WorkoutExecutionService.Controllers
 {
@@ -11,16 +16,30 @@ namespace WorkoutExecutionService.Controllers
     [Route("[controller]")]
     public class WorkoutController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly IMediator _mediator;
 
-        private readonly ILogger<WorkoutController> _logger;
-
-        public WorkoutController(ILogger<WorkoutController> logger)
+        public WorkoutController(IMediator mediator)
         {
-            _logger = logger;
+            _mediator = mediator;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<WorkoutExecutionDTO>>> Get(CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetUserWorkoutsQuery { Username = User.Identity.Name }, cancellationToken));
+        }
+
+        [HttpGet("{ownerName}/{externalId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<WorkoutExecutionDTO>> Get(string ownerName, Guid externalId, CancellationToken cancellationToken)
+        {
+            return Ok(await _mediator.Send(new GetUserWorkoutQuery
+            {
+                IssuerName = User?.Identity?.Name,
+                ExternalId = externalId,
+                OwnerName = ownerName
+            }, cancellationToken));
         }
 
     }
