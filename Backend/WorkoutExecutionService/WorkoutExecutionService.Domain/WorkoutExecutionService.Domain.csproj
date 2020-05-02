@@ -13,8 +13,4 @@
     <ProjectReference Include="..\WorkoutExecutionService.DataAccess\WorkoutExecutionService.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Command\" />
-  </ItemGroup>
-
 </Project>

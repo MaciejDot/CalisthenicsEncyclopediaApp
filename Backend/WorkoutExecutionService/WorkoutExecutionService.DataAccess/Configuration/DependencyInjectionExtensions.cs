@@ -13,6 +13,7 @@ using System.Text;
 using WorkoutExecutionService.DataAccess.Cache;
 using WorkoutExecutionService.DataAccess.Hangfire;
 using WorkoutExecutionService.DataAccess.Jobs;
+using WorkoutExecutionService.DataAccess.Providers;
 using WorkoutExecutionService.DataAccess.Repositories;
 using WorkoutExecutionService.DataAccessPoint.Cache;
 
@@ -22,9 +23,9 @@ namespace WorkoutExecutionService.DataAccess.Configuration
     {
         public static IServiceCollection AddWorkoutExecutionServiceDataAccessOptions(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<ExerciseServiceOptions>(configuration);
-            services.Configure<FatigueServiceOptions>(configuration);
-            services.Configure<MoodServiceOptions>(configuration);
+            services.Configure<ExerciseServiceOptions>(configuration.GetSection("ExerciseService"));
+            services.Configure<FatigueServiceOptions>(configuration.GetSection("FatigueService"));
+            services.Configure<MoodServiceOptions>(configuration.GetSection("MoodService"));
             return services;
         }
 
@@ -54,6 +55,8 @@ namespace WorkoutExecutionService.DataAccess.Configuration
             services.AddTransient<IPopulateWorkoutsJob, PopulateWorkoutsJob>();
             services.AddTransient<IUpdateWorkoutExecutionJob, UpdateWorkoutExecutionJob>();
 
+            services.AddSingleton<IGuidProvider, GuidProvider>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
             services.AddSimpleCQRS(Assembly.GetExecutingAssembly());
             services.AddHangfire(configuration =>

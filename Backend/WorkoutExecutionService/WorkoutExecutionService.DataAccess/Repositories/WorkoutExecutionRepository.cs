@@ -10,6 +10,7 @@ using WorkoutExecutionService.DataAccess.Database.Query;
 using WorkoutExecutionService.DataAccess.DTO;
 using WorkoutExecutionService.DataAccess.Hangfire;
 using WorkoutExecutionService.DataAccess.Jobs;
+using WorkoutExecutionService.DataAccess.Providers;
 
 namespace WorkoutExecutionService.DataAccess.Repositories
 {
@@ -22,6 +23,7 @@ namespace WorkoutExecutionService.DataAccess.Repositories
         private readonly IMoodsRepository _moodsRepository;
         private readonly IQueryProcessor _queryProcessor;
         private readonly IBackgroundJobClientService _backgroundJobClientService;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
         public WorkoutExecutionRepository(
             IWorkoutExecutionCacheService workoutExecutionCacheService,
@@ -30,7 +32,8 @@ namespace WorkoutExecutionService.DataAccess.Repositories
             IUserRepository userRepository,
             IExerciseRepository exerciseRepository,
             IBackgroundJobClientService backgroundJobClientService,
-            IQueryProcessor queryProcessor)
+            IQueryProcessor queryProcessor,
+            IDateTimeProvider dateTimeProvider)
         {
             _moodsRepository = moodsRepository;
             _fatiguesRepository = fatiguesRepository;
@@ -39,6 +42,7 @@ namespace WorkoutExecutionService.DataAccess.Repositories
             _userRepository = userRepository;
             _backgroundJobClientService = backgroundJobClientService;
             _queryProcessor = queryProcessor;
+            _dateTimeProvider = dateTimeProvider;
         }
 
         public async Task AddWorkoutPlanAsync(string username, WorkoutExecutionDTO workout)
@@ -68,7 +72,7 @@ namespace WorkoutExecutionService.DataAccess.Repositories
                 throw new Exception("there is no such workout");
             };
             DeleteWorkoutFromCache(username, externalId);
-            _backgroundJobClientService.Enqueue<IDeleteWorkoutExecutionJob>(x => x.Run(username, externalId));
+            _backgroundJobClientService.Enqueue<IDeleteWorkoutExecutionJob>(x => x.Run(_dateTimeProvider.GetDate(), username, externalId));
         }
 
         private void AddWorkoutPlanToCache(string username, WorkoutExecutionDTO workout)

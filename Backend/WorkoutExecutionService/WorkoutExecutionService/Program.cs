@@ -20,7 +20,9 @@ namespace WorkoutExecutionService
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseSockets()
+                        .UseStartup<Startup>();
                 });
     }
 }

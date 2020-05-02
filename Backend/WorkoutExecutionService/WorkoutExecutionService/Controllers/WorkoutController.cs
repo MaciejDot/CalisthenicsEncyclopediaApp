@@ -7,8 +7,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WorkoutExecutionService.Domain.Command;
 using WorkoutExecutionService.Domain.DTO;
 using WorkoutExecutionService.Domain.Query;
+using WorkoutExecutionService.Models;
 
 namespace WorkoutExecutionService.Controllers
 {
@@ -42,5 +44,77 @@ namespace WorkoutExecutionService.Controllers
             }, cancellationToken));
         }
 
+        [HttpDelete("{externalId}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(Guid externalId, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new DeleteWorkoutExecutionCommand
+            {
+                ExternalId = externalId,
+                Username = User.Identity.Name
+            }, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPatch("{externalId}")]
+        [Authorize]
+        public async Task<IActionResult> Patch(Guid externalId, [FromBody] WorkoutExecutionPatchModel model, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new UpdateWorkoutExecutionCommand
+            {
+                ExternalId = externalId,
+                Username = User.Identity.Name,
+                Description = model.Description,
+                FatigueId = model.FatigueId,
+                MoodId = model.MoodId,
+                Name = model.Name,
+                IsPublic = model.IsPublic,
+                Exercises = model.Exercises.Select(x => new ExerciseExecutionDTO
+                {
+                    ExerciseName = x.ExerciseName,
+                    ExerciseId = x.ExerciseId,
+                    AdditionalKgs = x.AdditionalKgs,
+                    Description = x.Description,
+                    Break = x.Break,
+                    Order = x.Order,
+                    Reps = x.Reps,
+                    Series = x.Series
+                }
+                )
+            }, cancellationToken
+
+                );
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult<WorkoutExecutionIdentificationDTO>> Post([FromBody] WorkoutExecutionPostModel model, CancellationToken cancellationToken)
+        {
+            return Ok(
+                await _mediator.Send(new AddWorkoutExecutionCommand
+                {
+                    Username = User.Identity.Name,
+                    WorkoutName = model.Name,
+                    IsPublic = model.IsPublic,
+                    MoodId = model.MoodId,
+                    Description = model.Description,
+                    FatigueId = model.FatigueId,
+                    Exercises = model.Exercises.Select(x => new ExerciseExecutionDTO
+                    {
+                        ExerciseName = x.ExerciseName,
+                        ExerciseId = x.ExerciseId,
+                        AdditionalKgs = x.AdditionalKgs,
+                        Description = x.Description,
+                        Break = x.Break,
+                        Order = x.Order,
+                        Reps = x.Reps,
+                        Series = x.Series
+                    }
+                )
+                },
+                cancellationToken
+                ));
+        }
     }
 }

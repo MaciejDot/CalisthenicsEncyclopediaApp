@@ -17,9 +17,9 @@ namespace WorkoutExecutionService.DataAccess.Jobs
             _commandDispatcher = commandDispatcher;
         }
 
-        public async Task Run(string username, Guid externalId)
+        public async Task Run(DateTime created, string username, Guid externalId)
         {
-            await _commandDispatcher.Dispatch(new DeleteWorkoutExecutionCommand { Username = username, ExternalId = externalId }, default);
+            await _commandDispatcher.Dispatch(new DeleteWorkoutExecutionCommand { Created = created, Username = username, ExternalId = externalId }, default);
         }
     }
 }

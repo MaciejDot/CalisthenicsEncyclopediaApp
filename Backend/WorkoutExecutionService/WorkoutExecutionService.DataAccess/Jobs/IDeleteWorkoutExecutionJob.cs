@@ -5,6 +5,6 @@ namespace WorkoutExecutionService.DataAccess.Jobs
 {
     public interface IDeleteWorkoutExecutionJob
     {
-        Task Run(string username, Guid externalId);
+        Task Run(DateTime created, string username, Guid externalId);
     }
 }
