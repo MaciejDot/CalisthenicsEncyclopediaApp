@@ -46,7 +46,7 @@ namespace WorkoutExecutionService.DataAccess.Database.QueryHandler
                         Name = x.Key.Name,
                         Created = x.Key.Created,
                         Description = x.Key.Description,
-                        Exercises = x.Where(x => x.Item2 != null).Select(x => x.Item2),
+                        Exercises = x.Where(x => x.Item2.ExerciseName != null).Select(x => x.Item2),
                         IsPublic = x.Key.IsPublic,
                         ExternalId = x.Key.ExternalId
                     });

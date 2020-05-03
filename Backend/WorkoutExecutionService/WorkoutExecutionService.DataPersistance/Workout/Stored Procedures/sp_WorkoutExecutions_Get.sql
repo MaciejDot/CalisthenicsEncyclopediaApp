@@ -9,6 +9,7 @@ BEGIN
 		wev.[Description],
 		wev.[Created],
 		wev.[IsPublic],
+		wev.[Executed],
 		ee.[Id],
 		ee.[Series],
 		ee.[Break],
@@ -42,6 +43,6 @@ BEGIN
 			)
 	ORDER BY
 		u.[Id] ASC , 
-		wev.[Id] ASC , 
+		wev.[Created] ASC , 
 		ee.[Order] ASC
 END

@@ -10,6 +10,7 @@ BEGIN
 		wev.[Description],
 		wev.[Created],
 		wev.[IsPublic],
+		wev.[Executed],
 		ee.[Id],
 		ee.[Series],
 		ee.[Break],
@@ -20,8 +21,8 @@ BEGIN
 		ee.[Description],
 		ee.Repetitions [Reps]
 	FROM 
-		[Workout].[WorkoutExecutionVersion] wev 
-		JOIN [Security].[Users] u 
+		[Security].[Users] u
+		LEFT JOIN [Workout].[WorkoutExecutionVersion] wev
 			ON wev.[UserId] = u.[Id]
 		LEFT JOIN [Workout].[ExerciseExecution] ee
 			ON ee.[WorkoutExecutionVersionId] = wev.[Id]
@@ -42,6 +43,6 @@ BEGIN
 			)
 	ORDER BY
 		u.[Id] ASC , 
-		wev.[Id] ASC , 
+		wev.[Created] ASC , 
 		ee.[Order] ASC
 END

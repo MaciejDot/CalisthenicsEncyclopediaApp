@@ -12,6 +12,7 @@ namespace WorkoutExecutionService.Domain.Command
         public Guid ExternalId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime Executed { get; set; }
         public bool IsPublic { get; set; }
         public int MoodId { get; set; }
         public int FatigueId { get; set; }

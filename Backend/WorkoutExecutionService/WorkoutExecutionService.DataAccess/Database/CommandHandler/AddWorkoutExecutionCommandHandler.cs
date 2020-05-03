@@ -44,6 +44,7 @@ namespace WorkoutExecutionService.DataAccess.Database.CommandHandler
                 workoutExecutionDTO.ExternalId,
                 workoutExecutionDTO.FatigueId,
                 workoutExecutionDTO.MoodId,
+                workoutExecutionDTO.Executed,
                 Username = username,
                 WorkouExecutionVersionId = workoutExecutionId,
                 IsActive = true,

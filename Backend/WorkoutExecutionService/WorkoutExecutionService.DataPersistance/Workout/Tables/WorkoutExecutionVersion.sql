@@ -5,6 +5,7 @@
     [IsActive]    BIT              NULL,
     [Name]        NVARCHAR (400)   NOT NULL,
     [Created]     DATETIME2 (7)    NOT NULL,
+    [Executed]     DATETIME2 (7)    NOT NULL,
     [IsPublic]    BIT              NOT NULL,
     [Description] NVARCHAR (1000)  NULL,
     [MoodId]      INT              NOT NULL,

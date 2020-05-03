@@ -2,7 +2,7 @@
 	@Username NVARCHAR(100),
 	@ExternalId UNIQUEIDENTIFIER,
 	@Created DATETIME2(7)
-
+	
 AS
 	DECLARE @UserId UNIQUEIDENTIFIER =
 	(
@@ -14,8 +14,8 @@ AS
 			[Name] = @Username
 	)
 	INSERT INTO [Workout].[WorkoutExecutionVersion]
-		([Id], [Name], [IsActive],[UserId], [Created], [Description], [IsPublic], [ExternalId], [MoodId], [FatigueId])
+		([Id], [Name], [IsActive],[UserId], [Created], [Description], [IsPublic], [ExternalId], [MoodId], [FatigueId],[Executed])
 	VALUES
-		(newid(), N'-- deleted --', 0, @UserId, @Created, NULL, 0, @ExternalId,1,1)
+		(newid(), N'-- deleted --', 0, @UserId, @Created, NULL, 0, @ExternalId,1,1, @Created)
 
 RETURN 0

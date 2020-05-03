@@ -51,7 +51,8 @@ namespace WorkoutExecutionService.Domain.CommandHandler
                     FatigueId = request.FatigueId,
                     MoodId = request.MoodId,
                     IsPublic = request.IsPublic,
-                    Name = request.WorkoutName
+                    Name = request.WorkoutName,
+                    Executed = request.Executed
                 }
                 );
             return identification;

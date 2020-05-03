@@ -45,7 +45,8 @@ namespace WorkoutExecutionService.Domain.QueryHandler
                 FatigueId = workout.FatigueId,
                 IsPublic = workout.IsPublic,
                 MoodId = workout.MoodId,
-                Name = workout.Name
+                Name = workout.Name,
+                Executed = workout.Executed
             });
         }
     }

@@ -8,7 +8,8 @@
 	@Created DATETIME2(7),
 	@IsActive BIT,
 	@MoodId INT,
-	@FatigueId INT
+	@FatigueId INT,
+	@Executed DATETIME2(7)
 
 AS
 	DECLARE @UserId UNIQUEIDENTIFIER =
@@ -21,7 +22,7 @@ AS
 			[Name] = @Username
 	)
 	INSERT INTO [Workout].[WorkoutExecutionVersion]
-		([Id], [Name], [IsActive], [UserId], [Created], [Description], [IsPublic], [ExternalId], [MoodId], [FatigueId])
+		([Id], [Name], [IsActive], [UserId], [Created], [Description], [IsPublic], [ExternalId], [MoodId], [FatigueId],[Executed])
 	VALUES
-		(@WorkouExecutionVersionId, @WorkoutName, @IsActive, @UserId, @Created, @Description, @IsPublic, @ExternalId, @MoodId, @FatigueId)
+		(@WorkouExecutionVersionId, @WorkoutName, @IsActive, @UserId, @Created, @Description, @IsPublic, @ExternalId, @MoodId, @FatigueId, @Executed)
 

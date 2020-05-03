@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [Workout].[ExerciseExecution] (
-    [Id]                        UNIQUEIDENTIFIER NOT NULL,
+    [Id]                        UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
     [ExerciseId]                INT              NOT NULL,
     [Order]                     INT              NOT NULL,
     [Repetitions]               INT              NOT NULL,

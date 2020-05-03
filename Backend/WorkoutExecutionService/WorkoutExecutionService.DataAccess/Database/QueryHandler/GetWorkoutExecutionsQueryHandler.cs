@@ -16,6 +16,10 @@ namespace WorkoutExecutionService.DataAccess.Database.QueryHandler
     public class GetWorkoutExecutionsQueryHandler : IQueryHandler<GetWorkoutsExecutionsQuery, IEnumerable<WorkoutExecutionDTO>>
     {
         private readonly SqlConnection _sqlConnection;
+        public GetWorkoutExecutionsQueryHandler(SqlConnection sqlConnection)
+        {
+            _sqlConnection = sqlConnection;
+        }
         public async Task<IEnumerable<WorkoutExecutionDTO>> Handle(GetWorkoutsExecutionsQuery query, CancellationToken cancellationToken)
         {
             var rawExecutions = await GetRawWorkoutExecutionsFromDatabase(query.Username);
@@ -37,22 +41,29 @@ namespace WorkoutExecutionService.DataAccess.Database.QueryHandler
                         Name = x.Key.Name,
                         Created = x.Key.Created,
                         Description = x.Key.Description,
-                        Exercises = x.Where(x => x.Item2 != null).Select(x => x.Item2),
+                        Exercises = x.Where(x => x.Item2.ExerciseName != null).Select(x => x.Item2),
                         IsPublic = x.Key.IsPublic
 
                     });
         }
 
-        private Task<IEnumerable<(WorkoutExecutionDTO, ExerciseExecutionDTO)>> GetRawWorkoutExecutionsFromDatabase(string username)
+        private async Task<IEnumerable<(WorkoutExecutionDTO, ExerciseExecutionDTO)>> GetRawWorkoutExecutionsFromDatabase(string username)
         {
-            return _sqlConnection.QueryAsync<WorkoutExecutionDTO, ExerciseExecutionDTO, (WorkoutExecutionDTO, ExerciseExecutionDTO)>(
-                    "[Workout].[sp_WorkoutExecutions_Get]",
-                     (workout, exercise) =>
-                     {
-                         return (workout, exercise);
-                     },
-                     new { username },
-                     commandType: CommandType.StoredProcedure);
+            try
+            {
+                return await _sqlConnection.QueryAsync<WorkoutExecutionDTO, ExerciseExecutionDTO, (WorkoutExecutionDTO, ExerciseExecutionDTO)>(
+                        "[Workout].[sp_WorkoutExecutions_Get]",
+                         (workout, exercise) =>
+                         {
+                             return (workout, exercise);
+                         },
+                         new { Username = username },
+                         commandType: CommandType.StoredProcedure);
+            }
+            catch
+            {
+                return Enumerable.Empty<(WorkoutExecutionDTO, ExerciseExecutionDTO)>();
+            }
         }
     }
 }
