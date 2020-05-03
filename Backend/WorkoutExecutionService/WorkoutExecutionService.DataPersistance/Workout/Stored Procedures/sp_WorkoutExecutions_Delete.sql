@@ -14,8 +14,8 @@ AS
 			[Name] = @Username
 	)
 	INSERT INTO [Workout].[WorkoutExecutionVersion]
-		([Id], [Name], [IsActive],[UserId], [Created], [Description], [IsPublic], [ExternalId])
+		([Id], [Name], [IsActive],[UserId], [Created], [Description], [IsPublic], [ExternalId], [MoodId], [FatigueId])
 	VALUES
-		(newid(), N'-- deleted --', 0, @UserId, @Created, NULL, 0, @ExternalId)
+		(newid(), N'-- deleted --', 0, @UserId, @Created, NULL, 0, @ExternalId,1,1)
 
 RETURN 0

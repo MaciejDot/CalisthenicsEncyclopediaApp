@@ -86,6 +86,7 @@ namespace WorkoutExecutionService
             app.UseWorkoutExecutionServiceDataAccess(client);
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors();
             app.UseEndpoints(endpoints =>

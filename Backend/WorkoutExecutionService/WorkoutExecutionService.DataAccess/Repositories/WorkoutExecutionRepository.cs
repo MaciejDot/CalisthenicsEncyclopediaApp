@@ -131,7 +131,7 @@ namespace WorkoutExecutionService.DataAccess.Repositories
         private async Task ValidateMood(WorkoutExecutionDTO workoutExecutionDTO)
         {
             var moods = await _moodsRepository.GetAll();
-            if (moods.Any(mood => mood.Id == workoutExecutionDTO.MoodId))
+            if (!moods.Any(mood => mood.Id == workoutExecutionDTO.MoodId))
             {
                 throw new Exception("That mood does not exist");
             }
@@ -140,7 +140,7 @@ namespace WorkoutExecutionService.DataAccess.Repositories
         private async Task ValidateFatigue(WorkoutExecutionDTO workoutExecutionDTO)
         {
             var fatigues = await _fatiguesRepository.GetAll();
-            if (fatigues.Any(fatigue => fatigue.Id == workoutExecutionDTO.FatigueId))
+            if (!fatigues.Any(fatigue => fatigue.Id == workoutExecutionDTO.FatigueId))
             {
                 throw new Exception("That fatigue does not exist");
             }
