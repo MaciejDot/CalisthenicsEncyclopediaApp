@@ -87,5 +87,10 @@
     <Build Include="Workout\Stored Procedures\sp_Fatigue_GetAll.sql" />
     <Build Include="Workout\Stored Procedures\sp_Mood_Add.sql" />
     <Build Include="Workout\Stored Procedures\sp_Mood_GetAll.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutExecutions_Add.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutExecutions_Delete.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutExecutions_Get.sql" />
+    <Build Include="Workout\Stored Procedures\sp_WorkoutExecutions_GetAll.sql" />
+    <Build Include="Workout\Stored Procedures\sp_ExerciseExecutions_Add.sql" />
   </ItemGroup>
 </Project>
