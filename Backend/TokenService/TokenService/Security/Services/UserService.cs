@@ -44,11 +44,6 @@ namespace TokenService.Security.Services
             });
         }
 
-        public RSAParameters GetRSAPublicKey()
-        {
-            return _rsaKey.ExportParameters(false);
-        }
-
         public async Task<bool> AddUser(RegisterUser user, CancellationToken cancellationToken)
         {
             if (await _context.Users.AnyAsync(x => x.Email == user.Email || x.Username == user.Username, cancellationToken))
@@ -93,6 +88,7 @@ namespace TokenService.Security.Services
                 .Select(x => new { User = x, Roles = x.UserRoles.Select(x => x.Role.Name).ToList() })
                 .SingleAsync(x => x.User.Email == authenticationModel.Email, cancellationToken);
             var user = userData.User;
+
             if (await GetHash(user.SecurityStamp, authenticationModel.Password) != user.PasswordHash)
             {
                 throw new Exception("not valid model");
@@ -115,15 +111,7 @@ namespace TokenService.Security.Services
 
             return tokenHandler.WriteToken(token);
         }
-        public Task<List<UserDTO>> GetUsers(CancellationToken token)
-        {
-            return _context.Users
-                .Select(x => new UserDTO
-                {
-                    Id = x.Id,
-                    Username = x.Username
-                }).ToListAsync(token);
-        }
+
         private static Task<string> GetHash(string stamp, string password)
         {
             var sha256 = SHA256.Create();

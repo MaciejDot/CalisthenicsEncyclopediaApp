@@ -43,7 +43,6 @@ namespace WorkoutExecutionService.DataAccess.Database.QueryHandler
                         Description = x.Key.Description,
                         Exercises = x.Where(x => x.Item2.ExerciseName != null).Select(x => x.Item2),
                         IsPublic = x.Key.IsPublic
-
                     });
         }
 
