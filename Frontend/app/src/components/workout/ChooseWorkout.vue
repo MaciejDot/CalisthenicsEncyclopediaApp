@@ -30,7 +30,7 @@
                     <p v-for="(workoutPlan,index) in workoutPlans" :key="index">
                       <router-link
                         class="link"
-                        :to="`WorkoutViewer/${username}/${workoutPlan.name}`"
+                        :to="`WorkoutViewer/${username}/${workoutPlan.externalId}`"
                       >{{workoutPlan.name}}</router-link>
                     </p>
                   </div>
@@ -86,6 +86,8 @@ export default {
   },
   mounted: function() {
     this.$store.dispatch("getWorkoutPlans").then(workoutPlans => {
+      // eslint-disable-next-line no-console
+      console.log(workoutPlans)
       this.workoutPlans = workoutPlans;
       this.workoutPlansAreUpdateing = false;
     });

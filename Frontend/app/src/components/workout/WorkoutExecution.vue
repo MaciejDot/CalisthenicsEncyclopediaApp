@@ -309,7 +309,7 @@ export default {
           this.$store
             .dispatch("getWorkoutExecutionView", {
               username: this.username,
-              workoutName: this.workoutName
+              externalId: this.externalId
             })
             .then(data => {
               this.workoutExecutionIsLoading = false;
@@ -367,6 +367,7 @@ export default {
     saveWorkout() {
       let order = 0;
       let data ={
+            externalId: this.externalId,
             name: this.nameOfWorkout,
             description: this.descriptionOfWorkout,
             dateOfWorkout: this.dateOfWorkout,

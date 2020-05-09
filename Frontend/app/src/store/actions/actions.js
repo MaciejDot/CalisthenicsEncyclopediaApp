@@ -32,7 +32,7 @@ export const actions = {
             state.lastUpdatedBackLog < Date.now() - 180 * 60 * 1000) {
             return this._vm
                 .$axios
-                .workout()
+                .workoutExecution()
                 .get('/Workout')
                 .then(x => {
                     commit('backLog', x.data);
@@ -47,6 +47,7 @@ export const actions = {
         state,
         commit
     }, {
+        externalId,
         name,
         description,
         created,
@@ -57,6 +58,7 @@ export const actions = {
         if (state.backLog !== undefined) {
             let backLog = state.backLog;
             backLog.push({
+                externalId,
                 name,
                 description,
                 created,
@@ -72,6 +74,7 @@ export const actions = {
         state,
         commit
     }, {
+        externalId,
         name,
         description,
         created,
@@ -80,8 +83,9 @@ export const actions = {
         fatigue
     }) {
         if (state.backLog !== undefined) {
-            let backLog = state.backLog.filter(x => x.name !== name);
+            let backLog = state.backLog.filter(x => x.externalId !== externalId);
             backLog.push({
+                externalId,
                 name,
                 description,
                 created,
@@ -102,7 +106,7 @@ export const actions = {
             state.lastUpdatedScheduledWorkouts < Date.now() - 180 * 60 * 1000) {
             return this._vm
                 .$axios
-                .workout()
+                .workoutPlan()
                 .get('/WorkoutSchedule')
                 .then(x => {
                     commit('scheduledWorkouts', x.data);
@@ -116,10 +120,10 @@ export const actions = {
         commit,
         state
     }, {
-        workoutName
+        externalId
     }) {
         if (state.scheduledWorkouts !== undefined) {
-            commit('scheduledWorkouts', state.scheduledWorkouts.filter(x => x.workoutPlanName === workoutName));
+            commit('scheduledWorkouts', state.scheduledWorkouts.filter(x => x.externalId === externalId));
         }
     },
     updateToken: function ({
@@ -167,7 +171,7 @@ export const actions = {
             state.exercisesLastUpdated < Date.now() - 8 * 60 * 60 * 1000 ||
             state.exercises === undefined) {
             return this._vm.$axios
-                .workout()
+                .exercise()
                 .get("/Exercise")
                 .then(
                     x => {
@@ -192,7 +196,7 @@ export const actions = {
             state.lastUpdatedMoods === undefined ||
             state.lastUpdatedMoods < Date.now() - 8 * 60 * 60 * 1000) {
             return this._vm.$axios
-                .workout()
+                .mood()
                 .get("/Mood")
                 .then(x => {
                     commit('moods', x.data.map(y => {
@@ -215,7 +219,7 @@ export const actions = {
             state.lastUpdatedFatigues === undefined ||
             state.lastUpdatedFatigues < Date.now() - 8 * 60 * 60 * 1000) {
             return this._vm.$axios
-                .workout()
+                .fatigue()
                 .get("/Fatigue")
                 .then(x => {
                     commit('fatigues', x.data.map(y => {
@@ -235,51 +239,27 @@ export const actions = {
         commit,
         dispatch
     }, entity) {
-        dispatch('removeWorkoutSchedule');
         dispatch('updateWorkoutPlanViewState', {
             username: state.username,
-            workoutName: entity.name,
+            externalId: entity.externalId,
             data: undefined
         })
-        if (state.workoutPlansLastUpdate == undefined ||
-            state.workoutPlansLastUpdate < Date.now() - 8 * 60 * 60 * 1000 ||
-            state.workoutPlans == undefined) {
-            this._vm.$axios
-                .workout()
-                .get("/WorkoutPlan")
-                .then(x => {
-                    commit('workoutPlans', x.data);
-                    commit('workoutPlansLastUpdate', Date.now())
-                    return state.workoutPlans;
-                })
-        } else {
-            for (var i = 0; i < state.workoutPlans.length; i += 1) {
-                if (state.workoutPlans[i].name == entity.name) {
-                    commit('workoutPlans', state.workoutPlans.splice(i, 1))
-                    return;
-                }
-            }
+        if (state.workoutPlans != undefined)
+        {
+            state.workoutPlans = state.workoutPlans.filter(element => element.externalId != `${entity.externalId}`);
+            commit('workoutPlans', state.workoutPlans)
         }
+        return Promise.resolve();
     },
     updateWorkoutPlans: function ({
         state,
         commit
     }, entity) {
-        if (state.workoutPlansLastUpdate == undefined ||
-            (state.workoutPlansLastUpdate < Date.now() - 8 * 60 * 60 * 1000) ||
-            state.workoutPlans == undefined) {
-            this._vm.$axios
-                .workout()
-                .get("/WorkoutPlan")
-                .then(x => {
-                    commit('workoutPlans', x.data);
-                    commit('workoutPlansLastUpdate', Date.now());
-                    return state.workoutPlans;
-                })
-        } else {
+        if (state.workoutPlans != undefined){
             state.workoutPlans.push(entity);
             commit('workoutPlans', state.workoutPlans);
         }
+        return Promise.resolve();
     },
     getWorkoutPlans: function ({
         state,
@@ -289,7 +269,7 @@ export const actions = {
             state.workoutPlansLastUpdate < Date.now() - 2 * 60 * 60 * 1000 ||
             state.workoutPlans == undefined) {
             return this._vm.$axios
-                .workout()
+                .workoutPlan()
                 .get("/WorkoutPlan")
                 .then(x => {
                     commit('workoutPlans', x.data);
@@ -297,6 +277,8 @@ export const actions = {
                     return state.workoutPlans;
                 });
         }
+        // eslint-disable-next-line no-console
+        console.log(state.workoutPlans)
         return Promise.resolve(state.workoutPlans)
     },
     postWorkoutPlan: function ({
@@ -304,17 +286,18 @@ export const actions = {
         state
     }, data) {
         return this._vm.$axios
-            .workout()
+            .workoutPlan()
             .post(`/WorkoutPlan`, data)
-            .then(() => {
+            .then(r => {
                 return Promise.all([dispatch('updateWorkoutPlans', {
                         name: data.name,
+                        externalId: r.data.externalId,
                         description: data.description
                     }),
                     dispatch('updateWorkoutPlanViewState', {
                         username: state.username,
-                        workoutName: data.name,
-                        data: data
+                        externalId: r.data.externalId,
+                        data: { ...data, externalId:r.data.externalId }
                     })
                 ]);
             });
@@ -325,12 +308,12 @@ export const actions = {
         dispatch
     }, data) {
         this._vm.$axios
-            .workout()
-            .patch(`/WorkoutPlan/${data.name}`, data)
+            .workoutPlan()
+            .patch(`/WorkoutPlan/${data.externalId}`, data)
             .then(() => {
                 return dispatch("updateWorkoutPlanViewState", {
                     username: state.username,
-                    workoutName: data.name,
+                    externalId: data.externalId,
                     data: data
                 });
             });
@@ -340,15 +323,17 @@ export const actions = {
         dispatch
     }, data) {
         return this._vm.$axios
-            .workout()
+            .workoutExecution()
             .post(`/Workout`, data)
-            .then(() => Promise.all([
+            .then(r => Promise.all([
                 dispatch('updateWorkoutExecutionViewState', {
                     username: state.username,
+                    externalId: r.data.externalId,
                     workoutName: data.name,
-                    data: data
+                   data: { ...data, externalId:r.data.externalId }
                 }),
                 dispatch('updateEntityBackLog', {
+                    externalId: r.data.externalId,
                     name: data.name,
                     description: data.description,
                     executed: data.dateOfWorkout,
@@ -363,17 +348,19 @@ export const actions = {
         state
     }, data) {
         return this._vm.$axios
-            .workout()
+            .workoutExecution()
             .patch(`/Workout/${data.name}`,
                 data)
             .then(() => Promise.all([
                 dispatch('updateWorkoutExecutionViewState', {
                     username: state.username,
                     workoutName: data.name,
+                    externalId: data.externalId,
                     data: data
                 }),
                 dispatch('updateEntityBackLog', {
                     name: data.name,
+                    externalId: data.externalId,
                     description: data.description,
                     executed: data.dateOfWorkout,
                     created: new Date(),
@@ -387,16 +374,16 @@ export const actions = {
         state
     }, {
         username,
-        workoutName,
-        data
+        data,
+        externalId
     }) {
 
         let workoutPlanView = state.workoutPlanView || {};
         workoutPlanView[username] = workoutPlanView[username] || {};
         let workoutPlanViewUpdate = state.workoutPlanViewUpdate || {};
         workoutPlanViewUpdate[username] = workoutPlanViewUpdate[username] || {};
-        workoutPlanView[username][workoutName] = data;
-        workoutPlanViewUpdate[username][workoutName] = Date.now();
+        workoutPlanView[username][externalId] = data;
+        workoutPlanViewUpdate[username][externalId] = Date.now();
         commit('workoutPlanView', workoutPlanView)
         commit('workoutPlanViewUpdate', workoutPlanViewUpdate)
     },
@@ -405,37 +392,37 @@ export const actions = {
         dispatch
     }, {
         username,
-        workoutName
+        externalId
     }) {
         if (state.workoutPlanViewUpdate == undefined ||
             state.workoutPlanViewUpdate[username] == undefined ||
-            state.workoutPlanViewUpdate[username][workoutName] == undefined ||
-            state.workoutPlanViewUpdate[username][workoutName] < Date.now() - 30 * 60 * 1000 ||
+            state.workoutPlanViewUpdate[username][externalId] == undefined ||
+            state.workoutPlanViewUpdate[username][externalId] < Date.now() - 30 * 60 * 1000 ||
             state.workoutPlanView == undefined ||
             state.workoutPlanView[username] == undefined ||
-            state.workoutPlanView[username][workoutName] == undefined ||
+            state.workoutPlanView[username][externalId] == undefined ||
             state.username != username) {
             return this._vm.$axios
-                .workout()
+                .workoutPlan()
                 .get(
-                    `/WorkoutPlan/${username}/${workoutName}`
+                    `/WorkoutPlan/${username}/${externalId}`
                 ).then(x => {
                     dispatch('updateWorkoutPlanViewState', {
                         username: username,
-                        workoutName: workoutName,
+                        externalId: externalId,
                         data: x.data
                     })
-                    return state.workoutPlanView[username][workoutName];
+                    return state.workoutPlanView[username][externalId];
                 });
         }
-        return Promise.resolve(state.workoutPlanView[username][workoutName]);
+        return Promise.resolve(state.workoutPlanView[username][externalId]);
     },
     updateWorkoutExecutionViewState: function ({
         commit,
         state
     }, {
         username,
-        workoutName,
+        externalId,
         data
     }) {
 
@@ -443,8 +430,8 @@ export const actions = {
         workoutExecutionView[username] = workoutExecutionView[username] || {};
         let workoutExecutionViewUpdate = state.workoutExecutionViewUpdate || {};
         workoutExecutionViewUpdate[username] = workoutExecutionViewUpdate[username] || {};
-        workoutExecutionView[username][workoutName] = data;
-        workoutExecutionViewUpdate[username][workoutName] = Date.now();
+        workoutExecutionView[username][externalId] = data;
+        workoutExecutionViewUpdate[username][externalId] = Date.now();
         commit('workoutExecutionView', workoutExecutionView)
         commit('workoutExecutionViewUpdate', workoutExecutionViewUpdate)
     },
@@ -453,42 +440,42 @@ export const actions = {
         dispatch
     }, {
         username,
-        workoutName
+        externalId
     }) {
         if (state.workoutExecutionViewUpdate == undefined ||
             state.workoutExecutionViewUpdate[username] == undefined ||
-            state.workoutExecutionViewUpdate[username][workoutName] == undefined ||
-            state.workoutExecutionViewUpdate[username][workoutName] < Date.now() - 30 * 60 * 1000 ||
+            state.workoutExecutionViewUpdate[username][externalId] == undefined ||
+            state.workoutExecutionViewUpdate[username][externalId] < Date.now() - 30 * 60 * 1000 ||
             state.workoutExecutionView == undefined ||
             state.workoutExecutionView[username] == undefined ||
-            state.workoutExecutionView[username][workoutName] == undefined ||
+            state.workoutExecutionView[username][externalId] == undefined ||
             state.username != username) {
             return this._vm.$axios
-                .workout()
+                .workoutExecution()
                 .get(
-                    `/Workout/${username}/${workoutName}`
+                    `/Workout/${username}/${externalId}`
                 ).then(x => {
                     dispatch('updateWorkoutExecutionViewState', {
                         username: username,
-                        workoutName: workoutName,
+                        workoutName: externalId,
                         data: x.data
                     })
-                    return state.workoutExecutionView[username][workoutName];
+                    return state.workoutExecutionView[username][externalId];
                 });
         }
-        return Promise.resolve(state.workoutExecutionView[username][workoutName]);
+        return Promise.resolve(state.workoutExecutionView[username][externalId]);
     },
     deleteWorkoutPlanView: function ({
         dispatch
     }, {
-        workoutName
+        externalId
     }) {
-        this._vm.$axios
-            .workout()
-            .delete(`/WorkoutPlan/${workoutName}`)
+        return this._vm.$axios
+            .workoutPlan()
+            .delete(`/WorkoutPlan/${externalId}`)
             .then(() => {
-                dispatch("removeWorkoutPlan", {
-                    name: this.workoutName
+                return dispatch("removeWorkoutPlan", {
+                    externalId: externalId
                 });
             });
     },
@@ -497,16 +484,16 @@ export const actions = {
         dispatch,
         commit
     }, {
-        workoutName
+        externalId
     }) {
         this._vm.$axios
-            .workout()
-            .delete(`/Workout/${workoutName}`).then(() => {
-                dispatch('updateWorkoutExecutionViewState', state.username, workoutName);
+            .workoutExecution()
+            .delete(`/Workout/${externalId}`).then(() => {
+                dispatch('updateWorkoutExecutionViewState', state.username, externalId);
                 if (state.backLog != undefined) {
                     let backLog = state.backLog;
                     for (var i = 0; i < backLog.length; i += 1) {
-                        if (backLog[i].name == workoutName) {
+                        if (backLog[i].name == externalId) {
                             commit('backLog', backLog.splice(i, 1))
                             return;
                         }

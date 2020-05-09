@@ -90,7 +90,7 @@ export default {
       return state.username === this.username;
     }
   }),
-  props: { workoutName: {}, username: {} },
+  props: { externalId: {}, username: {} },
   methods: {
     openContextMenu(event) {
       this.$refs.menu.showMenu(event);
@@ -123,12 +123,12 @@ export default {
       let hiddenElement = document.createElement("a");
       hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csv);
       hiddenElement.target = "_blank";
-      hiddenElement.download = `${this.workoutName}.csv`;
+      hiddenElement.download = `${this.externalId}.csv`;
       hiddenElement.click();
     },
     edit() {
       this.$router.push({
-        path: `/WorkoutExecution/${this.username}/${this.workoutName}`
+        path: `/WorkoutExecution/${this.username}/${this.externalId}`
       });
     },
     showModal() {
@@ -140,7 +140,7 @@ export default {
     deleteWorkout() {
       this.$store
         .dispatch("deleteWorkoutExecutionView", {
-          workoutName: this.workoutName
+          externalId: this.externalId
         })
         .then(() => {
           this.$router.push({ path: "/workout" });
@@ -161,7 +161,7 @@ export default {
         this.$store
           .dispatch("getWorkoutExecutionView", {
             username: this.username,
-            workoutName: this.workoutName
+            externalId: this.externalId
           })
           .then(data => {
             this.workoutExecutionIsLoading = false;

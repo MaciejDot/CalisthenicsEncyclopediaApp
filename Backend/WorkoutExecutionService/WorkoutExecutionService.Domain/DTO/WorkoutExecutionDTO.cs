@@ -12,8 +12,8 @@ namespace WorkoutExecutionService.Domain.DTO
         public DateTime Created { get; set; }
         public DateTime Executed { get; set; }
         public bool IsPublic { get; set; }
-        public int MoodId { get; set; }
-        public int FatigueId { get; set; }
+        public int Mood { get; set; }
+        public int Fatigue { get; set; }
         public IEnumerable<ExerciseExecutionDTO> Exercises { get; set; }
     }
 }

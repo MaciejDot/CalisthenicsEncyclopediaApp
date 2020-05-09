@@ -32,6 +32,14 @@ namespace FatigueService
             services.AddControllers();
             services.AddFatigueServiceDomain();
             services.AddFatigueServiceDataAccess(Configuration.GetConnectionString("FatigueDatabase"));
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,9 +54,9 @@ namespace FatigueService
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

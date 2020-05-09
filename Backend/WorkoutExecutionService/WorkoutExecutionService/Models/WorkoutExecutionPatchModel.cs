@@ -10,8 +10,8 @@ namespace WorkoutExecutionService.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsPublic { get; set; }
-        public int MoodId { get; set; }
-        public int FatigueId { get; set; }
+        public int Mood { get; set; }
+        public int Fatigue { get; set; }
         public IEnumerable<ExerciseExecutionModel> Exercises { get; set; }
         public DateTime Executed { get; set; }
     }

@@ -8,17 +8,11 @@
           <b-nav-item v-if="username != undefined">
             <router-link class="nav-link" to="/workout">Workout Program</router-link>
           </b-nav-item>
-          <b-nav-item>
-            <router-link class="nav-link" to="/Forum">Forum</router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link class="nav-link" to="/articles">Articles</router-link>
-          </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="username!=undefined" right>
             <template slot="button-content">
-              <em>{{username}}</em>
+              <em>{{ username }}</em>
             </template>
             <b-dropdown-item href="#" @click="signOut()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
@@ -29,7 +23,6 @@
       </b-collapse>
     </b-navbar>
     <router-view class="default-background"></router-view>
-    <!-- login modal??? -->
   </div>
 </template>
 <script>

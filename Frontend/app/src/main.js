@@ -72,28 +72,41 @@ const accountApi = () =>
     headers: headers(),
     timeout: 50000,
   })
-const forumApi = () =>
-  axios.create({
-    baseURL: baseUrls.forumApiAddress,
-    headers: headers(),
-    timeout: 50000,
-  })
-const articleApi = () => axios.create({
-  baseURL: baseUrls.articleApiAddress,
-  headers: headers(),
-  timeout: 50000,
-})
-const workoutApi = () => axios.create({
-  baseURL: baseUrls.workoutApiAddress,
+const workoutExecutionApi = () => axios.create({
+  baseURL: baseUrls.workoutExecutionApiAddress,
   headers: headers(),
   timeout: 50000,
 });
 
+const workoutPlanApi = () => axios.create({
+  baseURL: baseUrls.workoutPlanApiAddress,
+  headers: headers(),
+  timeout: 50000,
+})
+
+const exerciseApi =() => axios.create({
+  baseURL: baseUrls.exercisesAddress,
+  headers: headers(),
+  timeout: 50000,
+}) ;
+const moodApi=() => axios.create({
+  baseURL: baseUrls.moodAddress,
+  headers: headers(),
+  timeout: 50000,
+}) ;
+const fatigueApi=() => axios.create({
+  baseURL: baseUrls.fatigueAddress,
+  headers: headers(),
+  timeout: 50000,
+}) ;
+
 Vue.prototype.$axios = {
   account: accountApi,
-  forum: forumApi,
-  article: articleApi,
-  workout: workoutApi
+  workoutExecution: workoutExecutionApi,
+  workoutPlan: workoutPlanApi,
+  exercise: exerciseApi,
+  mood: moodApi,
+  fatigue: fatigueApi,
 }
 
 

@@ -1,6 +1,8 @@
 export const baseUrls = {
-    articleApiAddress:'https://localhost:44379',
-    forumApiAddress:'https://localhost:44362',
-    accountApiAddress:'https://localhost:44344',
-    workoutApiAddress:'https://localhost:44341'
+    accountApiAddress:'https://localhost:5011',
+    workoutExecutionApiAddress:'https://localhost:5009',
+    workoutPlanApiAddress: 'https://localhost:5005',
+    moodAddress: 'https://localhost:5003',
+    fatigueAddress: 'https://localhost:5007',
+    exercisesAddress:'https://localhost:5001'
   }

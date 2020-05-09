@@ -331,7 +331,7 @@ export default {
     BFormTextarea,
     draggable, BOverlay
   },
-  props: { workoutName: {}, username: {} },
+  props: { externalId: {}, username: {} },
   mounted: function() {
     this.$store
       .dispatch("getExercises")
@@ -339,11 +339,11 @@ export default {
         this.exercises = exercises;
       })
       .then(() => {
-        if (this.workoutName !== undefined) {
+        if (this.externalId !== undefined) {
           this.$store
             .dispatch("getWorkoutPlanView", {
               username: this.username,
-              workoutName: this.workoutName
+              externalId: this.externalId
             })
             .then(data => {
               this.workoutEdition = true;
@@ -421,6 +421,7 @@ export default {
       } else {
         this.$store
           .dispatch(`patchWorkoutPlan`, {
+            externalId: this.externalId,
             name: this.nameOfWorkout,
             description: this.descriptionOfWorkout,
             exercises: this.rowsOfWorkout.map(x => {
