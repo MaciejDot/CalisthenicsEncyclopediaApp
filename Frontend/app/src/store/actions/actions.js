@@ -82,8 +82,8 @@ export const actions = {
         mood,
         fatigue
     }) {
-        if (state.backLog !== undefined) {
-            let backLog = state.backLog.filter(x => x.externalId !== externalId);
+        if (state.backLog != undefined) {
+            let backLog = state.backLog.filter(x => x.externalId != externalId);
             backLog.push({
                 externalId,
                 name,
@@ -93,9 +93,9 @@ export const actions = {
                 mood,
                 fatigue
             });
-            return Promise.resolve(commit('backLog', backLog))
+            commit('backLog', backLog);
         }
-        return new Promise();
+        return Promise.resolve();
     },
     getScheduledWorkouts: function ({
         state,
@@ -277,8 +277,6 @@ export const actions = {
                     return state.workoutPlans;
                 });
         }
-        // eslint-disable-next-line no-console
-        console.log(state.workoutPlans)
         return Promise.resolve(state.workoutPlans)
     },
     postWorkoutPlan: function ({
@@ -330,7 +328,7 @@ export const actions = {
                     username: state.username,
                     externalId: r.data.externalId,
                     workoutName: data.name,
-                   data: { ...data, externalId:r.data.externalId }
+                   data: { ...data, externalId: r.data.externalId }
                 }),
                 dispatch('updateEntityBackLog', {
                     externalId: r.data.externalId,
@@ -434,6 +432,7 @@ export const actions = {
         workoutExecutionViewUpdate[username][externalId] = Date.now();
         commit('workoutExecutionView', workoutExecutionView)
         commit('workoutExecutionViewUpdate', workoutExecutionViewUpdate)
+        return Promise.resolve();
     },
     getWorkoutExecutionView: function ({
         state,
@@ -481,25 +480,24 @@ export const actions = {
     },
     deleteWorkoutExecutionView: function ({
         state,
-        dispatch,
-        commit
+        dispatch
     }, {
         externalId
     }) {
-        this._vm.$axios
+        return this._vm.$axios
             .workoutExecution()
-            .delete(`/Workout/${externalId}`).then(() => {
-                dispatch('updateWorkoutExecutionViewState', state.username, externalId);
-                if (state.backLog != undefined) {
-                    let backLog = state.backLog;
-                    for (var i = 0; i < backLog.length; i += 1) {
-                        if (backLog[i].name == externalId) {
-                            commit('backLog', backLog.splice(i, 1))
-                            return;
-                        }
-                    }
-                }
-            });
+            .delete(`/Workout/${externalId}`)
+            .then(() => Promise.all([
+                dispatch('updateWorkoutExecutionViewState', state.username, externalId),
+                dispatch('deleteFromStateBackLog', externalId)
+            ]));
+    },
+    deleteFromStateBackLog:({state, commit}, externalId)=>{
+        if (state.backLog != undefined) {
+            let backLog = state.backLog.filter(x=>x.externalId != externalId);
+            commit('backLog', backLog)
+        }
+        return Promise.resolve()
     },
     userIsInRole: ({
             state

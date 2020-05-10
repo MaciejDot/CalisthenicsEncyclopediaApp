@@ -17,7 +17,7 @@
               v-b-toggle="`plan-${index}`"
             >{{workoutSchedule.name}}</b-button>
             <b-collapse :id="`plan-${index}`">
-              <WorkoutViewer :username="$store.state.username" :workoutName="workoutSchedule.name" />
+              <WorkoutViewer :username="$store.state.username" :externalId="workoutSchedule.externalId" />
             </b-collapse>
             <div class="separator" />
           </div>
@@ -33,7 +33,7 @@
             <b-collapse :id="`execution-${index}`">
               <WorkoutExecutionViewer
                 :username="$store.state.username"
-                :workoutName="workoutExecution.name"
+                :externalId="workoutExecution.externalId"
               />
             </b-collapse>
             <div class="separator" />
@@ -77,6 +77,7 @@ export default {
             dot: "yellow",
             kind: workoutKindsEnum.workoutExecution,
             workoutName: y.name,
+            externalId: y.externalId,
             dates: [new Date(y.executed)],
             popover: {
               label: `Executed: ${y.name}`
@@ -92,6 +93,7 @@ export default {
             kind: workoutKindsEnum.workoutSchedule,
             dates: [new Date(y.scheduleDate)],
             workoutName: y.workoutPlanName,
+            externalId: y.externalId,
             popover: {
               label: `Planned: ${y.workoutPlanName}`
             }
@@ -115,13 +117,12 @@ export default {
             x.kind === workoutKind &&
             x.dates.some(y => y.toDateString() === date.toDateString())
         )
-        .map(x => ({ name: x.workoutName }));
+        .map(x => ({ name: x.workoutName, externalId: x.externalId }));
     },
     updateHooverDay: function(day) {
       this.workoutSchedules = this.getWorkoutSchedules(day.date);
       this.workoutExecutions = this.getWorkoutExecutions(day.date);
       this.open = true;
-      //v-b-toggle.sidebar-right;
       this.hooverDay = day.ariaLabel;
     }
   },
