@@ -12,9 +12,6 @@ import vSelect from 'vue-select'
 import VueSimpleContextMenu from 'vue-simple-context-menu'
 import Vuex from 'vuex'
 import {
-  getters
-} from './store/getters/getters'
-import {
   mutations
 } from './store/mutations/mutations'
 import {
@@ -51,7 +48,6 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {},
-  getters,
   mutations,
   actions,
   plugins: [persistancePlugin]

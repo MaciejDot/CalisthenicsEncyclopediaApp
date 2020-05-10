@@ -86,8 +86,6 @@ export default {
   },
   mounted: function() {
     this.$store.dispatch("getWorkoutPlans").then(workoutPlans => {
-      // eslint-disable-next-line no-console
-      console.log(workoutPlans)
       this.workoutPlans = workoutPlans;
       this.workoutPlansAreUpdateing = false;
     });
