@@ -292,7 +292,7 @@ export default {
     BFormSpinbutton,
     draggable, BOverlay
   },
-  props: { workoutName: {}, username: {} },
+  props: { externalId: {}, username: {} },
   mounted: function() {
     Promise.all([
       this.$store.dispatch("getFatigues"),

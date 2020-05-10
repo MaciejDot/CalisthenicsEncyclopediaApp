@@ -347,7 +347,7 @@ export const actions = {
     }, data) {
         return this._vm.$axios
             .workoutExecution()
-            .patch(`/Workout/${data.name}`,
+            .patch(`/Workout/${data.externalId}`,
                 data)
             .then(() => Promise.all([
                 dispatch('updateWorkoutExecutionViewState', {
