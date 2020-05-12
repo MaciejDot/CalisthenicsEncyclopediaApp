@@ -25,12 +25,23 @@
     <router-view />
   </div>
 </template>
-<script>
+<script lang="ts">
+
+import Vue from "vue";
 import { BNavbar } from "bootstrap-vue";
-export default {
-  name: "App",
-  components: {
-    BNavbar
+import Component from "vue-class-component";
+import { State, Action, Getter } from "vuex-class";
+
+@Component
+export default class App extends Vue {
+  @State("profile") profile: unknown;
+  @Action("fetchData") fetchData : number;
+  @Getter("fullName", {}) fullName: unknown;
+  mounted(){ 
+    this.fetchData({});
+  }
+  components(){
+    return { BNavbar }
   }
 };
 </script>
