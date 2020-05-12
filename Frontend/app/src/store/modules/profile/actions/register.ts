@@ -2,14 +2,14 @@ import { Action } from "vuex";
 import { RootState } from "../../../state";
 import { ProfileState } from "../state";
 import { endpoints } from "../../../../axios/index";
-import { LoginModel } from "../models/loginModel";
 import { TokenModel } from "../models/tokenModel";
+import { RegisterModel } from '../models/registerModel';
 
-export const login: Action<ProfileState, RootState> =
-    ({ commit }, model: LoginModel) => {
+export const register: Action<ProfileState, RootState> =
+    ({ commit }, model: RegisterModel) => {
         return endpoints
             .account()
-            .post("/Token", model)
+            .post("/Register", model)
             .then(response => {
                 let payload: TokenModel = response && response.data;
                 commit("token", payload.token);

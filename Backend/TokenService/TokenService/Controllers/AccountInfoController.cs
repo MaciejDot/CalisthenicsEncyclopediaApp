@@ -22,8 +22,7 @@ namespace TokenService.Controllers
         public ActionResult<UserInfoDTO> Get()
         {
             return new UserInfoDTO{ 
-                Username = User.Claims.Single(x=>x.Type=="Name").Value, 
-                Roles = User.Claims.Where(x=>x.Type== ClaimTypes.Role).Select(x=>x.Value) 
+                Username = User.Identity.Name,
             };
         }
     }

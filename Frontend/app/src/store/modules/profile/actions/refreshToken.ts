@@ -2,14 +2,13 @@ import { Action } from "vuex";
 import { RootState } from "../../../state";
 import { ProfileState } from "../state";
 import { endpoints } from "../../../../axios/index";
-import { LoginModel } from "../models/loginModel";
 import { TokenModel } from "../models/tokenModel";
 
-export const login: Action<ProfileState, RootState> =
-    ({ commit }, model: LoginModel) => {
+export const refreshToken: Action<ProfileState, RootState> =
+    ({ commit }) => {
         return endpoints
             .account()
-            .post("/Token", model)
+            .get("/Token")
             .then(response => {
                 let payload: TokenModel = response && response.data;
                 commit("token", payload.token);

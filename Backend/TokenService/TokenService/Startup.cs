@@ -67,7 +67,8 @@ namespace TokenService
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new RsaSecurityKey(rsa),
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        NameClaimType = "Name"
                     };
                 });
         }

@@ -2,14 +2,14 @@ import axios from "axios";
 import store from "../store/index";
 import { baseUrls } from "../config/index";
 
-var headers = function () {
-    return store.getters.jwtToken != "" ? {
-      'Content-Type': "application/json",
-      'Authorization': `Bearer ${store.getters.jwtToken}`
+const headers = function () {
+    return store.getters.loggedIn ? {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${store.getters.token}`
     } : {
-      'Content-Type': "application/json"
-    }
-  }
+            'Content-Type': "application/json"
+        }
+}
 
 export const endpoints = {
     account: () =>

@@ -8,5 +8,8 @@ export const getters: GetterTree<ProfileState, RootState> = {
     },
     username(state) : string | undefined {
         return state.username;
+    },
+    token(state) : string | undefined {
+        return state.token
     }
 };

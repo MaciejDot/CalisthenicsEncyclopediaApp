@@ -22,28 +22,18 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+    <login-modal />
     <router-view />
   </div>
 </template>
 <script lang="ts">
-
-import Vue from "vue";
 import { BNavbar } from "bootstrap-vue";
+import Vue from "vue";
 import Component from "vue-class-component";
-import { State, Action, Getter } from "vuex-class";
+import LoginModal from "./components/LoginModal.vue";
 
-@Component
-export default class App extends Vue {
-  @State("profile") profile: unknown;
-  @Action("fetchData") fetchData : number;
-  @Getter("fullName", {}) fullName: unknown;
-  mounted(){ 
-    this.fetchData({});
-  }
-  components(){
-    return { BNavbar }
-  }
-};
+@Component({ components: { BNavbar, LoginModal } })
+export default class App extends Vue {}
 </script>
 <style lang="scss">
 #app {
