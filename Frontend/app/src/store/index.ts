@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { profileModule } from "./modules/profile";
+import { workoutPlanModule } from "./modules/workoutPlan";
 import { RootState } from './state';
 import localforage from "localforage";
 import VuexPersistence from 'vuex-persist'
@@ -21,7 +22,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store<RootState>({
   modules: {
-    profileModule
+    profileModule,
+    workoutPlanModule
   },
   plugins : [vuexPersist.plugin]
 });
