@@ -1,9 +1,9 @@
 import { MutationTree } from "vuex";
 import { ProfileState } from "../state";
+import { CachedItemFromServer } from "../../../models/cachedItemFromServer";
+import { defineMutations } from 'direct-vuex';
 
-export const mutations: MutationTree<ProfileState> = {
-    token: (state, token : string | undefined) => state.token = token,
-    username: (state, username: string | undefined) => state.username = username,
-    usernameLastUpdated: (state, usernameLastUpdated: number | undefined) => state.usernameLastUpdated = usernameLastUpdated,
-    tokenLastUpdated: (state, tokenLastUpdated: number | undefined) => state.tokenLastUpdated = tokenLastUpdated
-};
+export const mutations = defineMutations<ProfileState>()({
+    token: (state, token : CachedItemFromServer<string>) => state.token = token,
+    username: (state, username: CachedItemFromServer<string>) => state.username = username,
+});

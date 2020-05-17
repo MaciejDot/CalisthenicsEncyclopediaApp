@@ -4,10 +4,18 @@ import { ProfileState } from "./state";
 import { actions } from "./actions";
 import { getters } from "./getters";
 import { mutations } from "./mutations";
+import { defineModule } from 'direct-vuex';
 
-export const profileModule : Module<ProfileState, RootState>=
+export const profileModule = defineModule(
 {
-    actions,
+    state() : ProfileState {
+        return {
+            token : undefined,
+            username : undefined
+        }
+    }, 
+    namespaced: true,
+    mutations,
     getters,
-    mutations
-}
+    actions,
+})

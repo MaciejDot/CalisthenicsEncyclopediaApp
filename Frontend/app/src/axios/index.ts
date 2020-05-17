@@ -3,9 +3,9 @@ import store from "../store/index";
 import { baseUrls } from "../config/index";
 
 const headers = function () {
-    return store.getters.loggedIn ? {
+    return store.original.direct.getters.profileModule.loggedIn ? {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${store.getters.token}`
+        'Authorization': `Bearer ${store.original.direct.getters.profileModule.token}`
     } : {
             'Content-Type': "application/json"
         }
@@ -18,6 +18,7 @@ export const endpoints = {
             headers: headers(),
             timeout: 50000,
         }),
+
     workoutExecution: () => axios.create({
         baseURL: baseUrls.workoutExecutionApiAddress,
         headers: headers(),

@@ -7,6 +7,7 @@ import { mutations } from "./mutations";
 
 export const workoutPlanModule : Module<WorkoutPlanState, RootState>=
 {
+    namespaced : true,
     actions,
     getters,
     mutations

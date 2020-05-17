@@ -1,15 +1,16 @@
 import { GetterTree } from "vuex";
-import { RootState } from "../../../state";
 import { ProfileState } from "../state";
+import { isCachedItemFromServerExpired } from "@/store/functions/isCachedItemFromServerExpired";
+import { defineGetters } from 'direct-vuex';
 
-export const getters: GetterTree<ProfileState, RootState> = {
-    loggedIn(state) : boolean { 
-        return state.token !== undefined
+export const getters = defineGetters<ProfileState>()({
+    loggedIn(state) : boolean {
+        return !isCachedItemFromServerExpired(state.token);
     },
     username(state) : string | undefined {
-        return state.username;
+        return state.username?.payload;
     },
     token(state) : string | undefined {
-        return state.token
+        return state.token?.payload;
     }
-};
+});

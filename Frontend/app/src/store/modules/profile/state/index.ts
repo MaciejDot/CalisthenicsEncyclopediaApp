@@ -1,6 +1,5 @@
+import { CachedItemFromServer } from "../../../models/cachedItemFromServer";
 export interface ProfileState{
-    token? : string,
-    tokenLastUpdated? : number,
-    username? : string,
-    usernameLastUpdated? : number
+    token : CachedItemFromServer<string> | undefined,
+    username : CachedItemFromServer<string> | undefined
 }

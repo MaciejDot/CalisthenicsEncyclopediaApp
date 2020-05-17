@@ -4,7 +4,8 @@ import { profileModule } from "./modules/profile";
 import { workoutPlanModule } from "./modules/workoutPlan";
 import { RootState } from './state';
 import localforage from "localforage";
-import VuexPersistence from 'vuex-persist'
+import VuexPersistence from 'vuex-persist';
+import { createDirectStore } from 'direct-vuex';
 
 const instance = localforage.createInstance({
   driver: [
@@ -20,10 +21,29 @@ const vuexPersist = new VuexPersistence({
 
 Vue.use(Vuex);
 
-export default new Vuex.Store<RootState>({
-  modules: {
-    profileModule,
-    workoutPlanModule
-  },
+const {
+  store,
+  rootActionContext,
+  moduleActionContext,
+  rootGetterContext,
+  moduleGetterContext
+} = createDirectStore({
+  modules: { profileModule },
   plugins : [vuexPersist.plugin]
 });
+
+export default store 
+
+export {
+  rootActionContext,
+  moduleActionContext,
+  rootGetterContext,
+  moduleGetterContext
+};
+
+export type AppStore = typeof store
+declare module "vuex" {
+  interface Store<S> {
+    direct: AppStore
+  }
+}
