@@ -12,11 +12,11 @@ export const accountInfo = (context : any): any =>{
         .get("/AccountInfo")
         .then(response => {
             const payload: AccountInfoModel = response && response.data;
-            commit.username( 
+            commit.putUsername( 
             { 
                 payload : payload.username,
-                lastUpdatedFromServer : Date.now(),
-                expirationDate: Date.now() + 60 * 60 * 1000
+                downloaded : Date.now(),
+                expires: Date.now() + 60 * 60 * 1000
             });
         });
 }

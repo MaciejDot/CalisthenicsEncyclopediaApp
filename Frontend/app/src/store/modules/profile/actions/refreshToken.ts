@@ -12,20 +12,20 @@ export const refreshToken =
         const { commit, getters, state } = moduleActionContext(context, profileModule);
         if (getters.loggedIn &&
             state.token !== undefined &&
-            state.token.lastUpdatedFromServer !== undefined &&
-            state.token.expirationDate !== undefined &&
-            Date.now() - state.token.lastUpdatedFromServer >
-            (state.token.expirationDate - state.token.lastUpdatedFromServer) / 2) {
+            state.token.downloaded !== undefined &&
+            state.token.expires !== undefined &&
+            Date.now() - state.token.downloaded >
+            (state.token.expires - state.token.downloaded) / 2) {
             return endpoints
                 .account()
                 .get("/Token")
                 .then(response => {
                     const payload: TokenModel = response && response.data;
-                    commit.token(
+                    commit.putToken(
                         {
                             payload: payload.token,
-                            lastUpdatedFromServer: Date.now(),
-                            expirationDate: Date.now() + 60 * 60 * 1000
+                            downloaded: Date.now(),
+                            expires: Date.now() + 60 * 60 * 1000
                         });
                 })
         }

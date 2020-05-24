@@ -15,8 +15,8 @@ const instance = localforage.createInstance({
   });
 
 const vuexPersist = new VuexPersistence({
-    storage: instance,
-    asyncStorage: true
+    storage: localStorage,//instance,
+    //asyncStorage: true,
   })
 
 Vue.use(Vuex);
@@ -28,7 +28,7 @@ const {
   rootGetterContext,
   moduleGetterContext
 } = createDirectStore({
-  modules: { profileModule },
+  modules: { profileModule, workoutPlanModule },
   plugins : [vuexPersist.plugin]
 });
 

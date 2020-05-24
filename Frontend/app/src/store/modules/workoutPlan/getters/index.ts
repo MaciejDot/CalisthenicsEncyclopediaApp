@@ -1,6 +1,6 @@
-import { GetterTree } from "vuex";
-import { RootState } from "../../../state";
 import { WorkoutPlanState } from "../state";
+import { isCachedItemFromServerExpired } from "@/store/functions/isCachedItemFromServerExpired";
+import { defineGetters } from 'direct-vuex';
 
-export const getters: GetterTree<WorkoutPlanState, RootState> = {
-};
+export const getters = defineGetters<WorkoutPlanState>()({
+});

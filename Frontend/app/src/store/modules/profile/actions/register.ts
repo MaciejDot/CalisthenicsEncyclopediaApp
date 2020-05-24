@@ -16,11 +16,11 @@ export const register: ActionImpl =
             .post("/Register", model)
             .then(response => {
                 const payload: TokenModel = response && response.data;
-                commit.token( 
+                commit.putToken( 
                 { 
                     payload : payload.token,
-                    lastUpdatedFromServer : Date.now(),
-                    expirationDate: Date.now() + 60 * 60 * 1000
+                    downloaded : Date.now(),
+                    expires: Date.now() + 60 * 60 * 1000
                 });
             })
     }

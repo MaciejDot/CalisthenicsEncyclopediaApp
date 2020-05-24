@@ -1,6 +1,7 @@
-import { ActionTree } from "vuex";
-import { RootState } from "../../../state";
-import { WorkoutPlanState } from "../state";
-
-export const actions: ActionTree<WorkoutPlanState, RootState> = {
-};
+import { defineActions } from "direct-vuex";
+import {getWorkoutPlanView} from "./getWorkoutPlanView"
+import { getWorkoutPlanThumbnails } from './getWorkoutPlanThumbnails';
+export const actions = defineActions({
+    getWorkoutPlanView,
+    getWorkoutPlanThumbnails
+});
