@@ -15,16 +15,14 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item v-if="loggedIn">
-            <router-link class="nav-link" to="/workout"
-              >Workout Program</router-link
-            >
+            <router-link class="nav-link" to="/Workout"> Workout </router-link>
           </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="loggedIn" right>
             <template slot="button-content">
-              <b-icon-people-circle font-scale="1.5" />
-              {{ username }}
+                <b-icon-people-circle />&nbsp;
+                {{ username }}
             </template>
             <b-dropdown-item href="#" @click="signOut"
               >Sign Out</b-dropdown-item
@@ -38,16 +36,12 @@
     </b-navbar>
     <login-modal v-model="loginModalIsActive" @log-in="logged" />
     <router-view />
-    <white-button>
-      sdfsdfsdf
-    </white-button>
   </div>
 </template>
 <script lang="ts">
 import { BNavbar, BIconPeopleCircle } from "bootstrap-vue";
 import Vue from "vue";
 import LoginModal from "./components/LoginModal.vue";
-import WhiteButton from "./components/common/WhiteButton.vue";
 
 export default Vue.extend({
   data() {
@@ -56,7 +50,7 @@ export default Vue.extend({
       loginModalIsActive: false
     };
   },
-  components: { BNavbar, LoginModal, WhiteButton, BIconPeopleCircle },
+  components: { BNavbar, LoginModal, BIconPeopleCircle },
   computed: {
     loggedIn(): boolean {
       return this.profileGetters.loggedIn;
@@ -64,9 +58,6 @@ export default Vue.extend({
     username(): string | unknown {
       return this.profileGetters.username;
     }
-  },
-  mounted(){
-    this.$store.direct.dispatch.workoutPlanModule.getWorkoutPlanThumbnails().then(x=> console.log(x));
   },
   methods: {
     signOut(): unknown {
