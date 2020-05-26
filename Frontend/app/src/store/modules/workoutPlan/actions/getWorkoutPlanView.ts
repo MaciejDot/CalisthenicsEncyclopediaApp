@@ -7,7 +7,7 @@ import { WorkoutPlanIdentityModel } from '../models/WorkoutPlanIdentityModel';
 
 export const getWorkoutPlanView = (context : any, identity: WorkoutPlanIdentityModel): Promise<WorkoutPlanCacheModel | undefined> =>{
     const { commit , state } = moduleActionContext(context, workoutPlanModule);
-    const { username, workoutId} = identity;
+    const { username, externalId: workoutId} = identity;
     if(isCachedItemFromServerExpired(state.workoutPlans?.get(username)?.get(workoutId))){
         return endpoints
                 .workoutPlan()
@@ -15,9 +15,9 @@ export const getWorkoutPlanView = (context : any, identity: WorkoutPlanIdentityM
                     `/WorkoutPlan/${username}/${workoutId}`
                 ).then(response => {
                     const payload: WorkoutPlanCacheModel = response && response.data;
-                    commit.addWorkoutPlanView({
+                    commit.addOrUpdateWorkoutPlanView({
                         username : username,
-                        workoutId : workoutId,
+                        externalId : workoutId,
                         workoutPlan : {
                             payload : payload,
                             downloaded : Date.now(),

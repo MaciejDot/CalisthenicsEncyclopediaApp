@@ -1,6 +1,6 @@
 export interface WorkoutPlanCacheThumbnailModel{
     externalId : string
     name : string
-    description : string
+    description? : string
     created : Date
 }

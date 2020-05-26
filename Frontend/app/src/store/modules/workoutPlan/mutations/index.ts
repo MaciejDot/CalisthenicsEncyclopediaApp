@@ -1,11 +1,21 @@
 import { WorkoutPlanState } from "../state";
 import { defineMutations } from 'direct-vuex';
-import { addWorkoutPlanView } from './addWorkoutPlanView';
+import { addOrUpdateWorkoutPlanView } from './addOrUpdateWorkoutPlanView';
 import { putWorkoutPlanThumbnails } from './putWorkoutPlanThumbnails';
 import { putWorkoutSchedules } from './putWorkoutSchedules';
+import { addOrUpdateWorkoutPlanThumbnails } from './addOrUpdateWorkoutPlanThumbnail';
+import { deleteWorkoutPlanThumbnail } from './deleteWorkoutPlanThumbnail';
+import { deleteWorkoutPlanView } from './deleteWorkoutPlanView';
+import { deleteWorkoutSchedule } from './deleteWorkoutSchedule';
+import { addOrUpdateWorkoutSchedule } from './addOrUpdateWorkoutSchedule';
 
 export const mutations = defineMutations<WorkoutPlanState>()({
-    addWorkoutPlanView,
+    addOrUpdateWorkoutPlanView,
     putWorkoutPlanThumbnails,
-    putWorkoutSchedules
+    putWorkoutSchedules,
+    addOrUpdateWorkoutPlanThumbnails,
+    deleteWorkoutPlanThumbnail,
+    deleteWorkoutPlanView,
+    deleteWorkoutSchedule,
+    addOrUpdateWorkoutSchedule
 });

@@ -1,4 +1,4 @@
 export interface WorkoutPlanIdentityModel{
     username: string,
-    workoutId: string
+    externalId: string
 }

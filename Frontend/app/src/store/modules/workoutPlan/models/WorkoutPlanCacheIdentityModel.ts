@@ -4,5 +4,5 @@ export interface WorkoutPlanCacheIdentityModel
 {
     workoutPlan : CachedItemFromServer<WorkoutPlanCacheModel>
     username : string,
-    workoutId : string
+    externalId : string
 }
