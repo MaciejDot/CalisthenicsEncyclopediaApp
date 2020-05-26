@@ -9,6 +9,7 @@ import { createDirectStore } from 'direct-vuex';
 import { exerciseModule } from './modules/exercises';
 import { moodModule } from './modules/mood';
 import { fatigueModule } from './modules/fatigue';
+import { workoutExecutionModule } from './modules/workoutExecution';
 
 const instance = localforage.createInstance({
   driver: [
@@ -31,7 +32,13 @@ const {
   rootGetterContext,
   moduleGetterContext
 } = createDirectStore({
-  modules: { profileModule, workoutPlanModule, exerciseModule, moodModule, fatigueModule },
+  modules: { 
+    profileModule, 
+    workoutPlanModule, 
+    exerciseModule, 
+    moodModule, 
+    fatigueModule, 
+    workoutExecutionModule },
   plugins: [vuexPersist.plugin]
 });
 
