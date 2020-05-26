@@ -1,5 +1,5 @@
 <template>
-  <b-overlay :show="workoutPlansAreNotLoaded">
+  <b-overlay :show="workoutPlansAreNotLoaded" class="whole-height">
     <p>
       <b>Your workout plans</b>
     </p>
@@ -8,7 +8,9 @@
         <a class="link"> {{ workoutPlan.name }} </a>
       </p>
     </div>
-    <a class="link"><b-icon-plus-circle />&nbsp;Create new Workout Plan</a>
+    <a class="link bottom-button">
+      <b-icon-plus-circle />&nbsp;Create a new workout plan
+    </a>
   </b-overlay>
 </template>
 <script lang="ts">
@@ -34,10 +36,19 @@ export default Vue.extend({
 });
 </script>
 <style scoped>
+.whole-height {
+  height: 100%;
+}
+.bottom-button {
+  position: absolute;
+  bottom: 2em;
+  right: 0;
+  left: 0;
+}
 .links-list {
   position: relative;
   overflow-y: scroll;
-  max-height: 150px;
+  max-height: 3rem;
 }
 .link:focus,
 .link:hover {
