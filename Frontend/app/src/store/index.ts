@@ -21,6 +21,12 @@ const instance = localforage.createInstance({
 const vuexPersist = new VuexPersistence({
   storage: localStorage,//instance,
   //asyncStorage: true,
+  modules: ["profileModule",
+    "workoutPlanModule",
+    "exerciseModule",
+    "moodModule",
+    "fatigueModule",
+    "workoutExecutionModule"]
 })
 
 Vue.use(Vuex);
@@ -32,13 +38,14 @@ const {
   rootGetterContext,
   moduleGetterContext
 } = createDirectStore({
-  modules: { 
-    profileModule, 
-    workoutPlanModule, 
-    exerciseModule, 
-    moodModule, 
-    fatigueModule, 
-    workoutExecutionModule },
+  modules: {
+    profileModule,
+    workoutPlanModule,
+    exerciseModule,
+    moodModule,
+    fatigueModule,
+    workoutExecutionModule
+  },
   plugins: [vuexPersist.plugin]
 });
 
