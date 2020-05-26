@@ -1,14 +1,12 @@
-import { Module } from "vuex";
-import { RootState } from "../../state";
-import { WorkoutPlanState } from "./state";
+import { ExerciseState } from "./state";
 import { actions } from "./actions";
 import { getters } from "./getters";
 import { mutations } from "./mutations";
 import { defineModule } from 'direct-vuex';
 
-export const workoutPlanModule = defineModule(
+export const exerciseModule = defineModule(
 {
-    state() : WorkoutPlanState {
+    state() : ExerciseState {
         return {}
     }, 
     namespaced: true,

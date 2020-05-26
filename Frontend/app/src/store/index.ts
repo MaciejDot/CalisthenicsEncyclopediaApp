@@ -6,18 +6,21 @@ import { RootState } from './state';
 import localforage from "localforage";
 import VuexPersistence from 'vuex-persist';
 import { createDirectStore } from 'direct-vuex';
+import { exerciseModule } from './modules/exercises';
+import { moodModule } from './modules/mood';
+import { fatigueModule } from './modules/fatigue';
 
 const instance = localforage.createInstance({
   driver: [
-          localforage.INDEXEDDB,
-          localforage.WEBSQL,
-          localforage.LOCALSTORAGE]
-  });
+    localforage.INDEXEDDB,
+    localforage.WEBSQL,
+    localforage.LOCALSTORAGE]
+});
 
 const vuexPersist = new VuexPersistence({
-    storage: localStorage,//instance,
-    //asyncStorage: true,
-  })
+  storage: localStorage,//instance,
+  //asyncStorage: true,
+})
 
 Vue.use(Vuex);
 
@@ -28,11 +31,11 @@ const {
   rootGetterContext,
   moduleGetterContext
 } = createDirectStore({
-  modules: { profileModule, workoutPlanModule },
-  plugins : [vuexPersist.plugin]
+  modules: { profileModule, workoutPlanModule, exerciseModule, moodModule, fatigueModule },
+  plugins: [vuexPersist.plugin]
 });
 
-export default store 
+export default store
 
 export {
   rootActionContext,

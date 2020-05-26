@@ -9,10 +9,7 @@ import { defineModule } from 'direct-vuex';
 export const profileModule = defineModule(
 {
     state() : ProfileState {
-        return {
-            token : undefined,
-            username : undefined
-        }
+        return {}
     }, 
     namespaced: true,
     mutations,
