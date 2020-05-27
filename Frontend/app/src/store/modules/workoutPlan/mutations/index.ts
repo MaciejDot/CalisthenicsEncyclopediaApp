@@ -8,6 +8,8 @@ import { deleteWorkoutPlanThumbnail } from './deleteWorkoutPlanThumbnail';
 import { deleteWorkoutPlanView } from './deleteWorkoutPlanView';
 import { deleteWorkoutSchedule } from './deleteWorkoutSchedule';
 import { addOrUpdateWorkoutSchedule } from './addOrUpdateWorkoutSchedule';
+import { deleteWorkoutSchedulesForWorkoutPlan } from './deleteWorkoutSchedulesForWorkoutPlan';
+import { updateWorkoutSchedulesForWorkoutPlan } from './updateWorkoutSchedulesForWorkoutPlan';
 
 export const mutations = defineMutations<WorkoutPlanState>()({
     addOrUpdateWorkoutPlanView,
@@ -17,5 +19,7 @@ export const mutations = defineMutations<WorkoutPlanState>()({
     deleteWorkoutPlanThumbnail,
     deleteWorkoutPlanView,
     deleteWorkoutSchedule,
-    addOrUpdateWorkoutSchedule
+    addOrUpdateWorkoutSchedule,
+    deleteWorkoutSchedulesForWorkoutPlan,
+    updateWorkoutSchedulesForWorkoutPlan
 });

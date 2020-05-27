@@ -22,5 +22,7 @@ export const patchWorkouPlan = (context: any, model: WorkoutPlanPatchModel): Pro
                     expires: Date.now() + 10 * 60 * 1000
                 }
             });
-            commit.addOrUpdateWorkoutPlanThumbnails(model);});
+            commit.addOrUpdateWorkoutPlanThumbnails(model);
+            commit.updateWorkoutSchedulesForWorkoutPlan({externalId: model.externalId, workoutPlanName: model.name});
+        });
 }

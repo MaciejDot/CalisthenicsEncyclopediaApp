@@ -13,5 +13,6 @@ export const deleteWorkouPlan = (context: any, externalId: string): Promise<unkn
         ).then(response => {
             commit.deleteWorkoutPlanThumbnail(externalId);
             commit.deleteWorkoutPlanView({ externalId, username: getters.username ?? "" });
+            commit.deleteWorkoutSchedulesForWorkoutPlan(externalId);
         });
 }

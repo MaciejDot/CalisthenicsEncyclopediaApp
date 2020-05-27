@@ -69,7 +69,7 @@ namespace WorkoutExecutionService.Controllers
                 MoodId = model.Mood,
                 Name = model.Name,
                 IsPublic = model.IsPublic,
-                Executed = model.DateOfWorkout,
+                Executed = model.Executed,
                 Exercises = model.Exercises.Select(x => new ExerciseExecutionDTO
                 {
                     ExerciseName = x.Name,
@@ -101,7 +101,7 @@ namespace WorkoutExecutionService.Controllers
                     MoodId = model.Mood,
                     Description = model.Description,
                     FatigueId = model.Fatigue,
-                    Executed = model.DateOfWorkout,
+                    Executed = model.Executed,
                     Exercises = model.Exercises.Select(x => new ExerciseExecutionDTO
                     {
                         ExerciseName = x.Name,

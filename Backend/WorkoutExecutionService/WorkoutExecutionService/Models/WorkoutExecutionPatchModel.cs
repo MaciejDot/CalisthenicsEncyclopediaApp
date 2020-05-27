@@ -13,6 +13,6 @@ namespace WorkoutExecutionService.Models
         public int Mood { get; set; }
         public int Fatigue { get; set; }
         public IEnumerable<ExerciseExecutionModel> Exercises { get; set; }
-        public DateTime DateOfWorkout { get; set; }
+        public DateTime Executed { get; set; }
     }
 }
