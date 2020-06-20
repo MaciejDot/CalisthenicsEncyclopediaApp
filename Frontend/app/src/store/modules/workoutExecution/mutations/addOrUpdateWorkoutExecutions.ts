@@ -2,6 +2,7 @@ import { WorkoutExecutionState } from '../state';
 import { WorkoutExecutionCacheModel } from '../models/WorkoutExecutionCacheModel';
 import { CachedItemFromServer } from '@/store/models/cachedItemFromServer';
 import { WorkoutExecutionsIdentityCacheModel } from '../models/WorkoutExecutionsIdentityCacheModel';
+import Vue from 'vue';
 
 export const addOrUpdateWorkoutExecutions = (state: WorkoutExecutionState, payload: WorkoutExecutionsIdentityCacheModel) => {
     state.workoutExecutions = state.workoutExecutions ?? new Map<string, Map<string, CachedItemFromServer<WorkoutExecutionCacheModel>>>();
@@ -10,4 +11,5 @@ export const addOrUpdateWorkoutExecutions = (state: WorkoutExecutionState, paylo
         return map;
     }, new Map<string, CachedItemFromServer<WorkoutExecutionCacheModel>>())
     )
+    Vue.set(state, 'workoutExecutions', state.workoutExecutions);
 }

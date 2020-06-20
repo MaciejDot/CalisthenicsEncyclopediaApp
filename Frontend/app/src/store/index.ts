@@ -2,8 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { profileModule } from "./modules/profile";
 import { workoutPlanModule } from "./modules/workoutPlan";
-import { RootState } from './state';
-import localforage from "localforage";
+import SecureLS from 'secure-ls';
 import VuexPersistence from 'vuex-persist';
 import { createDirectStore } from 'direct-vuex';
 import { exerciseModule } from './modules/exercises';
@@ -11,22 +10,21 @@ import { moodModule } from './modules/mood';
 import { fatigueModule } from './modules/fatigue';
 import { workoutExecutionModule } from './modules/workoutExecution';
 
-const instance = localforage.createInstance({
-  driver: [
-    localforage.INDEXEDDB,
-    localforage.WEBSQL,
-    localforage.LOCALSTORAGE]
-});
-
+const ls = new SecureLS({ isCompression: false });
 const vuexPersist = new VuexPersistence({
-  storage: localStorage,//instance,
-  //asyncStorage: true,
-  modules: ["profileModule",
-    "workoutPlanModule",
-    "exerciseModule",
-    "moodModule",
-    "fatigueModule",
-    "workoutExecutionModule"]
+  storage: {
+    getItem: (key: string) => {
+      try { return ls.get(key) }
+      catch { return "" }
+    },
+    clear: () => ls.clear(),
+    removeItem: (key: string) => ls.remove(key),
+    key: (index: number) => "vuex-persist",
+    length: 1,
+    setItem: (key: string, value: string) => ls.set(key, value),
+    name: "vuex-persist",
+  },
+  modules: ["profileModule"]
 })
 
 Vue.use(Vuex);

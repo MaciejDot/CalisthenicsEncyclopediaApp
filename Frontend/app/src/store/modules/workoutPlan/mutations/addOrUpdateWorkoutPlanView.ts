@@ -2,6 +2,7 @@ import { WorkoutPlanCacheIdentityModel } from '../models/WorkoutPlanCacheIdentit
 import { WorkoutPlanState } from '../state';
 import { CachedItemFromServer } from '@/store/models/cachedItemFromServer';
 import { WorkoutPlanCacheModel } from '../models/WorkoutPlanCacheModel';
+import Vue from 'vue';
 
 export const addOrUpdateWorkoutPlanView = (state: WorkoutPlanState, payload : WorkoutPlanCacheIdentityModel) : any =>
 {
@@ -11,4 +12,5 @@ export const addOrUpdateWorkoutPlanView = (state: WorkoutPlanState, payload : Wo
         state.workoutPlans.set(payload.username, new Map<string, CachedItemFromServer<WorkoutPlanCacheModel>>());
     }
     state.workoutPlans.get(payload.username)?.set(payload.externalId, payload.workoutPlan);
+    Vue.set(state,'workoutPlans', state.workoutPlans);
 }

@@ -1,19 +1,28 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import Workout from "../views/Workout.vue"
+import Workout from "../views/Workout.vue";
+import { RouteAuthenticationEnum } from "./enums/RouteAuthenticationEnum";
+import { MetaModel } from './models/MetaModel';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      authentication: RouteAuthenticationEnum.AuthenticationDoesNotMatter
+    } as MetaModel
   },
   {
     path: "/Workout",
     name: "Workout",
-    component: Workout
+    component: Workout,
+    meta: {
+      authentication: RouteAuthenticationEnum.UserMustBeAuthenticated
+    } as MetaModel
   },
   {
     path: "/about",

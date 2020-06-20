@@ -42,6 +42,7 @@
 import { BNavbar, BIconPeopleCircle } from "bootstrap-vue";
 import Vue from "vue";
 import LoginModal from "./components/LoginModal.vue";
+import { MetaModel } from './router/models/MetaModel';
 
 export default Vue.extend({
   data() {
@@ -59,6 +60,10 @@ export default Vue.extend({
       return this.profileGetters.username;
     }
   },
+  created(){
+    setInterval(()=>
+    console.log(this.profileGetters.token),1000);
+  },
   methods: {
     signOut(): unknown {
       return 0;
@@ -67,7 +72,7 @@ export default Vue.extend({
       this.loginModalIsActive = true;
     },
     logged() {
-      console.log(this.loginModalIsActive);
+      //const meta = this.$route.meta as MetaModel;
     }
   }
 });
