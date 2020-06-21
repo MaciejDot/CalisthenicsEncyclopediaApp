@@ -1,7 +1,6 @@
 import { WorkoutPlanState } from "../state";
 import { isCachedItemFromServerExpired } from "@/store/functions/isCachedItemFromServerExpired";
 import { defineGetters } from 'direct-vuex';
-import { WorkoutPlanCacheThumbnailModel } from '../models/WorkoutPlanCacheThumbnailModel';
 import { WorkoutSchedulesCacheModel } from '../models/WorkoutSchedulesCacheModel';
 import { WorkoutPlanCacheModel } from '../models/WorkoutPlanCacheModel';
 
@@ -9,7 +8,7 @@ export const getters = defineGetters<WorkoutPlanState>()({
     workoutPlansThumbnailsAreActual(state): boolean {
         return !isCachedItemFromServerExpired(state?.workoutPlansThumbnails)
     },
-    workoutPlansThumbnails(state): Array<WorkoutPlanCacheThumbnailModel> | undefined {
+    workoutPlansThumbnails(state): Array<WorkoutPlanCacheModel> | undefined {
         return !isCachedItemFromServerExpired(state?.workoutPlansThumbnails) ?
             state?.workoutPlansThumbnails?.payload :
             undefined

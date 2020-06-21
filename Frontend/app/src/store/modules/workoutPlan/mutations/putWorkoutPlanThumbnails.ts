@@ -1,10 +1,9 @@
 import { WorkoutPlanState } from '../state';
-import { WorkoutPlanCacheThumbnailModel } from '../models/WorkoutPlanCacheThumbnailModel';
+import { WorkoutPlanCacheModel } from '../models/WorkoutPlanCacheModel';
 import { CachedItemFromServer } from '@/store/models/cachedItemFromServer';
 import Vue from 'vue';
 
-export const putWorkoutPlanThumbnails = (state: WorkoutPlanState, payload : CachedItemFromServer<Array<WorkoutPlanCacheThumbnailModel>>) : any =>
+export const putWorkoutPlanThumbnails = (state: WorkoutPlanState, payload : CachedItemFromServer<Array<WorkoutPlanCacheModel>>) : any =>
 {
-    state.workoutPlansThumbnails = payload;
-    Vue.set(state,'workoutPlansThumbnails', state.workoutPlansThumbnails);
+    Vue.set(state,'workoutPlansThumbnails', payload);
 }

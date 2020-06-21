@@ -1,5 +1,8 @@
 <template>
   <div>
+    <workout-execution-title-view
+      :workoutExecutionTitle="workoutExectionProp"
+    />
     <exercise-execution-card
       :key="index"
       v-for="(exercise, index) in exercises"
@@ -11,17 +14,11 @@
 import Vue from "vue";
 import ExerciseExecutionCard from "./ExerciseExecutionCard.vue";
 import { WorkoutExecutionProp } from "../../propsModels/workoutExecutionView/WorkoutExecutionProp";
-import { ExerciseExecutionProp } from "../../propsModels/workoutExecutionView/ExerciseExecutionProp";
+import WorkoutExecutionTitleView from "./WorkoutExecutionTitleCard.vue";
 export default Vue.extend({
   props: {
     workoutExecutionProps: Object as () => WorkoutExecutionProp
   },
-  created() {
-    Promise.all([
-      this.$store.direct.dispatch.fatigueModule.getFatigues(),
-      this.$store.direct.dispatch.moodModule.getMoods()
-    ]).then();
-  },
-  components: { ExerciseExecutionCard }
+  components: { ExerciseExecutionCard, WorkoutExecutionTitleView }
 });
 </script>

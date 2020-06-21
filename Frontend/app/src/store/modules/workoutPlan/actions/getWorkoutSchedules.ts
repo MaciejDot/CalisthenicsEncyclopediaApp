@@ -6,7 +6,7 @@ import { WorkoutPlanCacheModel } from '../models/WorkoutPlanCacheModel';
 import { WorkoutPlanIdentityModel } from '../models/WorkoutPlanIdentityModel';
 import { WorkoutSchedulesCacheModel } from '../models/WorkoutSchedulesCacheModel';
 
-export const getWorkoutSchedules = (context : any, identity: WorkoutPlanIdentityModel): Promise<Array<WorkoutSchedulesCacheModel> | undefined> =>{
+export const getWorkoutSchedules = (context : any): Promise<Array<WorkoutSchedulesCacheModel> | undefined> =>{
     const { commit , state } = moduleActionContext(context, workoutPlanModule);
     if(isCachedItemFromServerExpired(state.workoutSchedules)){
         return endpoints

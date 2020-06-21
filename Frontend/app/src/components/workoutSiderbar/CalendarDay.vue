@@ -6,12 +6,23 @@
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
+  props: {
+    selectedDate: Date
+  },
   data() {
     return {
-      selectedDate: 0,
       workoutExecutions: [],
       workoutPlans: []
     };
+  },
+  created() {
+    Promise.all([
+      this.$store.direct.dispatch.moodModule.getMoods(),
+      this.$store.direct.dispatch.fatigueModule.getFatigues(),
+      this.$store.direct.dispatch.workoutExecutionModule.getWorkoutExecutions(),
+      this.$store.direct.dispatch.workoutPlanModule.getWorkoutSchedules(),
+      this.$store.direct.dispatch.workoutPlanModule.getWorkoutPlanThumbnails()
+    ]);
   }
 });
 </script>

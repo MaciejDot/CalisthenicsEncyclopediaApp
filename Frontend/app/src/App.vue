@@ -21,8 +21,8 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="loggedIn" right>
             <template slot="button-content">
-                <b-icon-people-circle />&nbsp;
-                {{ username }}
+              <b-icon-people-circle />&nbsp; &nbsp;
+              {{ username }}
             </template>
             <b-dropdown-item href="#" @click="signOut"
               >Sign Out</b-dropdown-item
@@ -42,7 +42,7 @@
 import { BNavbar, BIconPeopleCircle } from "bootstrap-vue";
 import Vue from "vue";
 import LoginModal from "./components/LoginModal.vue";
-import { MetaModel } from './router/models/MetaModel';
+import { MetaModel } from "./router/models/MetaModel";
 
 export default Vue.extend({
   data() {
@@ -59,10 +59,6 @@ export default Vue.extend({
     username(): string | unknown {
       return this.profileGetters.username;
     }
-  },
-  created(){
-    setInterval(()=>
-    console.log(this.profileGetters.token),1000);
   },
   methods: {
     signOut(): unknown {

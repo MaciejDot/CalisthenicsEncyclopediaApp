@@ -16,15 +16,14 @@
 <script lang="ts">
 import Vue from "vue";
 import { BOverlay, BIconPlusCircle } from "bootstrap-vue";
-import { WorkoutPlanCacheThumbnailModel } from "@/store/modules/workoutPlan/models/WorkoutPlanCacheThumbnailModel";
-
+import { WorkoutPlanCacheModel } from '@/store/modules/workoutPlan/models/WorkoutPlanCacheModel';
 export default Vue.extend({
   components: { BOverlay, BIconPlusCircle },
   created() {
     this.$store.direct.dispatch.workoutPlanModule.getWorkoutPlanThumbnails();
   },
   computed: {
-    workoutPlans(): Array<WorkoutPlanCacheThumbnailModel> | undefined {
+    workoutPlans(): Array<WorkoutPlanCacheModel> | undefined {
       return this.$store.direct.getters.workoutPlanModule
         .workoutPlansThumbnails;
     },

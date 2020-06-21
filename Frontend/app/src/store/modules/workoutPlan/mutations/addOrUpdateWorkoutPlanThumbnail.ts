@@ -1,7 +1,7 @@
 import { WorkoutPlanState } from '../state';
-import { WorkoutPlanCacheThumbnailModel } from '../models/WorkoutPlanCacheThumbnailModel';
+import { WorkoutPlanCacheModel } from '../models/WorkoutPlanCacheModel';
 import Vue from 'vue';
-export const addOrUpdateWorkoutPlanThumbnails = (state: WorkoutPlanState, payload : WorkoutPlanCacheThumbnailModel) : any =>
+export const addOrUpdateWorkoutPlanThumbnails = (state: WorkoutPlanState, payload : WorkoutPlanCacheModel) : any =>
 {
     if(state.workoutPlansThumbnails!==undefined)
     {
