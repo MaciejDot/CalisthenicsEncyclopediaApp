@@ -1,11 +1,11 @@
 <template>
   <div>
     <workout-execution-title-view
-      :workoutExecutionTitle="workoutExectionProp"
+      :workoutExecutionTitle="workoutExecution"
     />
     <exercise-execution-card
       :key="index"
-      v-for="(exercise, index) in exercises"
+      v-for="(exercise, index) in workoutExecution.exercises"
       :exerciseExecution="exercise"
     />
   </div>
@@ -17,7 +17,7 @@ import { WorkoutExecutionProp } from "../../propsModels/workoutExecutionView/Wor
 import WorkoutExecutionTitleView from "./WorkoutExecutionTitleCard.vue";
 export default Vue.extend({
   props: {
-    workoutExecutionProps: Object as () => WorkoutExecutionProp
+    workoutExecution: Object as () => WorkoutExecutionProp
   },
   components: { ExerciseExecutionCard, WorkoutExecutionTitleView }
 });

@@ -24,6 +24,7 @@
       class="white"
       width="90%"
     >
+     <calendar-day/>
     </b-sidebar>
   </div>
 </template>
@@ -32,6 +33,7 @@ import WorkoutPlanList from "../components/workoutCards/WorkoutPlanList.vue";
 import Calendar from "../components/workoutCards/Calendar.vue";
 import WorkoutCard from "../components/workoutCards/WorkoutCard.vue";
 import { BContainer, BRow, BCol, BSidebar } from "bootstrap-vue";
+import CalendarDay from "../components/workoutSiderbar/CalendarDay.vue";
 import Vue from "vue";
 export default Vue.extend({
   components: {
@@ -41,7 +43,8 @@ export default Vue.extend({
     BContainer,
     BRow,
     BCol,
-    BSidebar
+    BSidebar,
+    CalendarDay
   },
   data() {
     return { open: true };
